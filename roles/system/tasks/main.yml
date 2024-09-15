@@ -1,0 +1,30 @@
+- name: Set timezone to Europe/Prague
+  community.general.timezone:
+    name: Europe/Prague
+
+- name: Ensure [multilib] repository is enabled
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#\[multilib\]'
+    line: '[multilib]'
+    state: present
+
+- name: Ensure multilib mirrorlist line is uncommented
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    regexp: '^#Include = /etc/pacman.d/mirrorlist'
+    line: 'Include = /etc/pacman.d/mirrorlist'
+    state: present
+
+- name: Ensure the system is up-to-date
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install required packages
+  pacman:
+    name: "{{ packages }}"
+    state: present
+
+
+

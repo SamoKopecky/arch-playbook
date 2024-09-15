@@ -1,0 +1,12 @@
+---
+- name: Setup system
+  hosts: all
+  become: true
+
+
+  tasks:
+    - name: Use system role
+      ansible.builtin.import_role:
+        name: system
+      tags:
+        - system
